@@ -1,7 +1,6 @@
 package com.npt.ecommerce_full;
 
-import com.npt.ecommerce_full.model.Role;
-import com.npt.ecommerce_full.model.User;
+import com.npt.ecommerce_full.user.User;
 import com.npt.ecommerce_full.security.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
