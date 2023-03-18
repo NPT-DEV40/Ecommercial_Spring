@@ -1,6 +1,5 @@
 package com.npt.ecommerce_full.config;
 
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -27,8 +25,8 @@ public class SecurityConfiguration {
         http
                 .csrf()
                 .disable()
-                .authorizeRequests()
-                .antMatchers("/api/v1/auth/**")
+                .authorizeHttpRequests()
+                .requestMatchers("/api/v1/auth/**", "/account/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
