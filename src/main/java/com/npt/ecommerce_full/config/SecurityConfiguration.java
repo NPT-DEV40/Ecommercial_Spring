@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -22,13 +23,35 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+//                .csrf()
+//                .disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/").permitAll()
+//                .requestMatchers("/user/*").hasAuthority("USER")
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("do-login")
+//                .defaultSuccessUrl("/success")
+//                .and()
+//                .logout()
+//                .invalidateHttpSession(true)
+//                .clearAuthentication(true)
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessUrl("/login?logout")
+//                .permitAll();
+
+
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-//                .requestMatchers("/api/v1/auth/**")
-//                .permitAll()
                 .anyRequest()
                 .permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/do-login")
+                .defaultSuccessUrl("/index")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
