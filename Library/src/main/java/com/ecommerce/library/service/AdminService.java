@@ -2,14 +2,11 @@ package com.ecommerce.library.service;
 
 import com.ecommerce.library.dto.AdminDto;
 import com.ecommerce.library.model.Admin;
-import com.ecommerce.library.model.Role;
 import com.ecommerce.library.repository.AdminRepository;
 import com.ecommerce.library.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 @Service

@@ -6,11 +6,11 @@ import com.ecommerce.library.repository.ProductRepository;
 import com.ecommerce.library.utils.ImageUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -113,17 +113,54 @@ public class ProductService {
     }
 
     public Page<ProductDto> pageProducts(int pageNumber) {
-        Pageable pageable = (Pageable) PageRequest.of(pageNumber, 5);
+        PageRequest pageRequest = PageRequest.of(pageNumber, 5);
         List<ProductDto> productDtos = transfer(productRepository.findAll());
-        Page<ProductDto> productDtoPage = toPage(productDtos, pageable);
-        return productDtoPage;
+        return toPage(productDtos, pageRequest);
     }
 
-//    public Page<ProductDto> toPage(List<ProductDto> productDtos, Pageable pageable) {
-//        if(pageable.getNumberOfPages() > productDtos.size()) {
-//            return Page.empty();
-//        }
-//        int startIndex = pageable.getOffSet();
-//
-//    }
+    public Page<ProductDto> searchProducts(int pageNumber, String searchKey) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, 5);
+        List<ProductDto> productDtos = transfer(productRepository.searchProductsList(searchKey));
+        return toPage(productDtos, pageRequest);
+    }
+
+    public Page<ProductDto> toPage(List<ProductDto> productDtos, PageRequest pageRequest) {
+        if(pageRequest.getOffset() >= productDtos.size()) {
+            return Page.empty();
+        }
+        // getOffset() will be return the starting index of current page you indicate
+        // getPageSize() will be return the number of items to be displayed per page
+        int startIndex = (int) pageRequest.getOffset();
+        int endIndex = ((pageRequest.getOffset() + pageRequest.getPageSize()) > productDtos.size())
+                ? productDtos.size() : (int) (pageRequest.getOffset() + pageRequest.getPageSize());
+        List<ProductDto> subList = productDtos.subList(startIndex,endIndex);
+        return new PageImpl<ProductDto>(subList, pageRequest, productDtos.size());
+    }
+
+
+//    Customer
+    public List<Product> getAllProducts() {
+        return productRepository.getAllProducts();
+    }
+    public List<Product> listViewProducts() {
+        return productRepository.listViewProducts();
+    }
+    public List<Product> getProductsInCategory(Long categoryId) {
+        return productRepository.findProductInCategory(categoryId);
+    }
+    public List<Product> getRelatedProducts(Long categoryId) {
+        return productRepository.getRelatedProducts(categoryId);
+    }
+    public Product getProductById(Long id) {
+        return productRepository.getById(id);
+    }
+    public List<Product> findProductsInCategory(Long categoryId) {
+        return productRepository.findProductInCategory(categoryId);
+    }
+    public List<Product> filterHighPrice() {
+        return productRepository.filterHighPrice();
+    }
+    public List<Product> filterLowPrice() {
+        return productRepository.filterLowPrice();
+    }
 }

@@ -6,9 +6,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class CategoryDto {
     private Long categoryId;
     private String categoryName;
     private Long numberOfProduct;
+
+    public CategoryDto(Long categoryId, String categoryName, Long numberOfProduct) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.numberOfProduct = numberOfProduct;
+    }
 }

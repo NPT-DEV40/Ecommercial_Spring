@@ -5,6 +5,7 @@ import com.ecommerce.library.model.Category;
 import com.ecommerce.library.service.CategoryService;
 import com.ecommerce.library.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,33 @@ public class ProductController {
         return "products";
     }
 
+    @GetMapping("/products/{pageNo}")
+    public String productsPage(@PathVariable("pageNo") int pageNumber, Model model, Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        Page<ProductDto> productPage = productService.pageProducts(pageNumber);
+        model.addAttribute("size", productPage.getSize());
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("products", productPage);
+        return "products";
+    }
+
+    @GetMapping("/search-result/{pageNo}")
+    public String searchProducts(@PathVariable("pageNo") int pageNumber,Principal principal, Model model,
+                                 @RequestParam("search") String searchWord) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        Page<ProductDto> productPage = productService.searchProducts(pageNumber, searchWord);
+        model.addAttribute("products", productPage);
+        model.addAttribute("size", productPage.getSize());
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        return "search-products";
+    }
+
     @GetMapping("/add-product")
     public String AddProduct(Model model, Principal principal) {
         if(principal == null) {
@@ -54,7 +82,7 @@ public class ProductController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("Failed", "Failed to add");
         }
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
 
     @GetMapping("/update-product/{id}")
@@ -81,7 +109,7 @@ public class ProductController {
         } catch(Exception e) {
             redirectAttributes.addFlashAttribute("Failed", "Failed to update");
         }
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
 
     @RequestMapping(value = "/enable-product/{id}", method = {RequestMethod.PUT, RequestMethod.GET})

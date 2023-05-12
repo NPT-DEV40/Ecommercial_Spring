@@ -13,18 +13,22 @@ import lombok.NoArgsConstructor;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "product_id")
+    private long id;
     private String name;
     private String description;
     private double costPrice;
     private double salePrice;
     private int currentQuantity;
+
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
+
     private boolean is_deleted;
     private boolean is_activated;
 }
