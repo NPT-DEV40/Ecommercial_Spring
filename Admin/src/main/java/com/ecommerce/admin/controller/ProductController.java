@@ -30,7 +30,7 @@ public class ProductController {
         List<ProductDto> productDtos = productService.findAll();
         model.addAttribute("products", productDtos);
         model.addAttribute("size", productDtos.size());
-        return "products";
+        return "redirect:/products/0";
     }
 
     @GetMapping("/products/{pageNo}")
@@ -85,7 +85,7 @@ public class ProductController {
         return "redirect:/products/0";
     }
 
-    @GetMapping("/update-product/{id}")
+    @GetMapping("/edit-product/{id}")
     public String UpdateProductScreen(Model model, Principal principal, @PathVariable("id") Long id) {
         if(principal == null) {
             return "redirect:/login";
@@ -101,7 +101,7 @@ public class ProductController {
 
 
     @PostMapping("/update-product/{id}")
-    public String UpdateProduct(@PathVariable("id") Long id, @ModelAttribute("productDto") ProductDto productDto,
+    public String UpdateProduct(@ModelAttribute("productDto") ProductDto productDto,
                                 @RequestParam("imageProduct") MultipartFile imageProduct, RedirectAttributes redirectAttributes) {
         try {
             productService.update(imageProduct, productDto);

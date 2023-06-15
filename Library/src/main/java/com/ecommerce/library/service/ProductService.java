@@ -49,7 +49,7 @@ public class ProductService {
     }
 
     public void update(MultipartFile image, ProductDto productDto) throws IOException {
-        Product product = new Product();
+        Product product = productRepository.findById(productDto.getId()).orElseThrow();
         if(image == null) {
             product.setImage(null);
         } else {

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
+
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
@@ -37,12 +39,18 @@ public class LoginController {
     }
 
     @RequestMapping("/index")
-    public String home(Model model) {
+    public String home(Model model, Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
         return "index";
     }
 
     @GetMapping("/forgot-password")
-    public String forgotPassword(Model model) {
+    public String forgotPassword(Model model, Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("title", "Forgot Password");
         return "forgot-password";
     }
@@ -85,4 +93,88 @@ public class LoginController {
         return "redirect:/login";
     }
 
+    @RequestMapping(value = "/logout")
+    public String logout() {
+        return "login";
+    }
+
+    @RequestMapping(value = "/dashboard")
+    public String dashboard(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "index";
+    }
+
+    @RequestMapping(value = "/utilities-color")
+    public String utilitiesColor(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "utilities-color";
+    }
+
+    @RequestMapping(value = "/utilities-border")
+    public String utilitiesBorder(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "utilities-border";
+    }
+
+    @RequestMapping(value = "/utilities-animation")
+    public String utilitiesAnimation(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "utilities-animation";
+    }
+
+    @RequestMapping(value = "/utilities-other")
+    public String utilitiesOther(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "utilities-other";
+    }
+
+    @RequestMapping(value = "/tables")
+    public String tables(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "tables";
+    }
+
+    @RequestMapping(value = "/404")
+    public String error404(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "404";
+    }
+
+    @RequestMapping(value = "/charts")
+    public String charts(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "charts";
+    }
+
+    @RequestMapping(value = "/blank")
+    public String blank(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "blank";
+    }
+
+    @RequestMapping(value = "/forgot-password")
+    public String forgotPassword(Principal principal) {
+        if(principal == null) {
+            return "redirect:/login";
+        }
+        return "forgot-password";
+    }
 }

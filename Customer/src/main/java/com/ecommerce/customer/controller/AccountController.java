@@ -26,6 +26,4 @@ public class AccountController {
         return "my-account";
     }
 
-
-
 }

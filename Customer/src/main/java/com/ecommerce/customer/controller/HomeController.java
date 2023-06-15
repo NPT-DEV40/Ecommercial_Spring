@@ -32,6 +32,8 @@ public class HomeController {
             httpSession.setAttribute("username", principal.getName());
             ShoppingCart shoppingCart = user.getShoppingCart();
             httpSession.setAttribute("shoppingCart", shoppingCart);
+            int totalQuantity = shoppingCart.getTotalQuantity();
+            httpSession.setAttribute("totalItems", totalQuantity);
         } else {
             httpSession.removeAttribute("username");
         }
@@ -46,4 +48,16 @@ public class HomeController {
         model.addAttribute("products", products);
         return "index";
     }
+
+    @GetMapping("/product-detail")
+    public String productDetails() {
+        return "product-detail";
+    }
+
+    @GetMapping("/contact-us")
+    public String contactUs() {
+        return "contact-us";
+    }
+
+
 }

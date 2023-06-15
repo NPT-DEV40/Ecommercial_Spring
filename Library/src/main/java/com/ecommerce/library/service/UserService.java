@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class UserService {
         user.setLastName(userDto.getLastName());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        user.setRoles(Arrays.asList(roleRepository.findByName("CUSTOMER")));
+        user.setRoles(Collections.singletonList(roleRepository.findByName("CUSTOMER")));
         userRepository.save(user);
         return tranferToUserDto(user);
     }
